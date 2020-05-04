@@ -8,16 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: "Check if user has write access"
-      uses: "lannonbr/repo-permission-check-action@2.0.0"
-      with:
-        permission: "admin"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v2-beta
-      with:
-        fetch-depth: 0
-    - uses: backspace/ember-asset-size-action@support-working-directory
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        working-directory: "ui"
+      - name: "Check if user has write access"
+        uses: "lannonbr/repo-permission-check-action@2.0.0"
+        with:
+          permission: "admin"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 0
+      - uses: backspace/ember-asset-size-action-nonfork
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          working-directory: "ui"
