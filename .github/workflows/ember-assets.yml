@@ -1,6 +1,6 @@
 name: Ember Asset Sizes
 
-on: [push, pull_request] # FIXME make for PR only
+on: pull_request
 
 jobs:
   build:
