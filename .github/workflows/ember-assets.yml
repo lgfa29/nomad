@@ -12,6 +12,6 @@ jobs:
       with:
         fetch-depth: 0
     - uses: NullVoxPopuli/ember-asset-size-action@f9d61df
-      working-directory: ui/
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        working-directory: ui/
