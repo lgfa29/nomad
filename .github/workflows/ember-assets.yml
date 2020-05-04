@@ -1,7 +1,7 @@
 name: Ember Asset Sizes
 
 on: [push, pull_request] # FIXME make for PR only
-path: ui/
+working-directory: ui/
 
 jobs:
   build:
