@@ -1,0 +1,16 @@
+name: Ember Asset Sizes
+
+on: [push, pull_request] # FIXME make for PR only
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2-beta
+      with:
+        fetch-depth: 0
+    - uses: NullVoxPopuli/ember-asset-size-action@f9d61df
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
