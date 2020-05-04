@@ -1,7 +1,6 @@
 name: Ember Asset Sizes
 
 on: [push, pull_request] # FIXME make for PR only
-working-directory: ui/
 
 jobs:
   build:
@@ -13,5 +12,6 @@ jobs:
       with:
         fetch-depth: 0
     - uses: NullVoxPopuli/ember-asset-size-action@f9d61df
+      working-directory: ui/
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
