@@ -48,12 +48,15 @@ async function diffAssets({ pullRequest, cwd, usePrArtifacts }) {
 async function commentOnPR({ octokit, pullRequest, fileDiffs }) {
   const body = buildOutputText(fileDiffs);
 
+  warning('body?');
+  warning(body);
+
   try {
     await octokit.issues.createComment({
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: pullRequest.number,
-      body,
+      body: body || 'fallback',
     });
   } catch (e) {
     console.error(e);
