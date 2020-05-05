@@ -29,7 +29,7 @@ async function getActionInputs() {
 }
 
 async function diffAssets({ pullRequest, cwd, usePrArtifacts }) {
-  warning(`calling getAssetSizes on PR with cwd: ${cwd}`);
+  warning(`calling getAssetSizes on PR with cwd, build: ${cwd}, ${!usePrArtifacts}`);
   const prAssets = await getAssetSizes({ cwd, build: !usePrArtifacts });
 
   await exec(`git checkout`, [pullRequest.base.sha], { cwd });
