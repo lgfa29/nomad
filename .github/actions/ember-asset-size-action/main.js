@@ -48,6 +48,9 @@ async function diffAssets({ pullRequest, cwd, usePrArtifacts }) {
 async function commentOnPR({ octokit, pullRequest, fileDiffs }) {
   const body = buildOutputText(fileDiffs);
 
+  warning('file diffs');
+  warning(JSON.stringify(fileDiffs, null, 2));
+
   warning('body?');
   warning(body);
 
