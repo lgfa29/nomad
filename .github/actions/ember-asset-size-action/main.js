@@ -59,7 +59,7 @@ async function commentOnPR({ octokit, pullRequest, fileDiffs }) {
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: pullRequest.number,
-      body: body || 'fallback',
+      body,
     });
   } catch (e) {
     console.error(e);
