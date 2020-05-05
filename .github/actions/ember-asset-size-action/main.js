@@ -70,7 +70,7 @@ ${body}`);
 
 export default async function run() {
   try {
-    const { token, cwd, usePrArtifacts } = getActionInputs();
+    const { token, cwd, usePrArtifacts } = await getActionInputs();
 
     const octokit = new GitHub(token);
     const { data: userData } = await octokit.request("/user");
