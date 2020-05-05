@@ -77,12 +77,12 @@ export async function getAssetSizes({ cwd, build = true }) {
   if (build) {
     warning(`Calling path with cwd ${cwd}`);
     if (fs.existsSync(path.join(cwd, 'yarn.lock'))) {
-      await exec('yarn --frozen-lockfile', { cwd });
+      await exec('yarn --frozen-lockfile', [], { cwd });
     } else {
-      await exec('npm ci', { cwd });
+      await exec('npm ci', [], { cwd });
     }
 
-    await exec('npx ember build -prod', { cwd });
+    await exec('npx ember build -prod', [], { cwd });
   }
 
   let prAssets;
