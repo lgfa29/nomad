@@ -19,3 +19,4 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           working-directory: "ui"
+          use-pr-artifacts: false
