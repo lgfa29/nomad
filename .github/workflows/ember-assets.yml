@@ -8,19 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Check if user has write access"
-        uses: "lannonbr/repo-permission-check-action@2.0.0"
-        with:
-          permission: "admin"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2-beta
         with:
           fetch-depth: 0
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
       - uses: ./.github/actions/ember-asset-size-action
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
