@@ -30,7 +30,7 @@ async function getActionInputs() {
 
 async function diffAssets({ pullRequest, cwd, usePrArtifacts }) {
   warning(`calling getAssetSizes on PR with cwd, build: ${cwd}, ${!usePrArtifacts}`);
-  const prAssets = await getAssetSizes({ cwd, build: !usePrArtifacts });
+  const prAssets = await getAssetSizes({ cwd, build: true }); // FIXME shouldn’t be hardcoded
 
   await exec(`git checkout ${pullRequest.base.sha}`, [], { cwd });
 
