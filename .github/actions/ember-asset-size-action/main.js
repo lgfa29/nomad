@@ -32,7 +32,7 @@ async function diffAssets({ pullRequest, cwd, usePrArtifacts }) {
   warning(`calling getAssetSizes with cwd: ${cwd}`);
   const prAssets = await getAssetSizes({ cwd, build: !usePrArtifacts });
 
-  await exec(`git checkout ${pullRequest.base.sha}`, { cwd });
+  await exec(`git checkout ${pullRequest.base.sha}`, [], { cwd });
 
   const masterAssets = await getAssetSizes({ cwd, build: true });
 
