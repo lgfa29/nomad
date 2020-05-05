@@ -29,11 +29,12 @@ async function getActionInputs() {
 }
 
 async function diffAssets({ pullRequest, cwd, usePrArtifacts }) {
-  warning(`calling getAssetSizes with cwd: ${cwd}`);
+  warning(`calling getAssetSizes on PR with cwd: ${cwd}`);
   const prAssets = await getAssetSizes({ cwd, build: !usePrArtifacts });
 
   await exec(`git checkout`, [pullRequest.base.sha], { cwd });
 
+  warning('calling getAssets on master');
   const masterAssets = await getAssetSizes({ cwd, build: true });
 
   const fileDiffs = diffSizes(
