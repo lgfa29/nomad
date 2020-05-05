@@ -98,6 +98,9 @@ export async function getAssetSizes({ cwd, build = true }) {
     cwd,
   });
 
+  warning('pr assets?');
+  warning(JSON.stringify(prAssets, null, 2));
+
   return prAssets;
 }
 
