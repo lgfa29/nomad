@@ -30,7 +30,7 @@ func (f *CNIFingerprint) Fingerprint(req *FingerprintRequest, resp *FingerprintR
 
 	files, err := libcni.ConfFiles(confDir, []string{".conf", ".conflist", ".json"})
 	if err != nil {
-		return fmt.Errorf("failed to read cni conf files: %v", err)
+		return fmt.Errorf("failed to detect CNI conf files: %v", err)
 	}
 
 	for _, confFile := range files {

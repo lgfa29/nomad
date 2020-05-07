@@ -43,7 +43,7 @@ type cniNetworkConfigurator struct {
 func newCNINetworkConfigurator(logger log.Logger, cniPath, cniInterfacePrefix, cniConfDir, networkName string) (*cniNetworkConfigurator, error) {
 	cniConf, err := loadCNIConf(cniConfDir, networkName)
 	if err != nil {
-		return nil, fmt.Errorf("failed to load cni config: %v", err)
+		return nil, fmt.Errorf("failed to load CNI config: %v", err)
 	}
 
 	return newCNINetworkConfiguratorWithConf(logger, cniPath, cniInterfacePrefix, cniConf)
@@ -112,9 +112,9 @@ func loadCNIConf(confDir, name string) ([]byte, error) {
 	files, err := cnilibrary.ConfFiles(confDir, []string{".conf", ".conflist", ".json"})
 	switch {
 	case err != nil:
-		return nil, fmt.Errorf("failed to read cni config file: %v", err)
+		return nil, fmt.Errorf("failed to detect CNI config file: %v", err)
 	case len(files) == 0:
-		return nil, fmt.Errorf("no cni network config found in %s", confDir)
+		return nil, fmt.Errorf("no CNI network config found in %s", confDir)
 	}
 
 	// files contains the network config files associated with cni network.
