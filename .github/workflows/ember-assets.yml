@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.x'
-      - uses: backspace/ember-asset-size-action@working-directory-fixes
+      - uses: backspace/ember-asset-size-action@edit-comment
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           working-directory: "ui"
