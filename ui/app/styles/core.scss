@@ -34,3 +34,10 @@
 @import './core/tag';
 @import './core/title';
 @import './core/typography';
+
+.jorty {
+  font-weight: bold;
+  background: blue;
+  text-decoration: underline;
+  z-index: 999999;
+}
