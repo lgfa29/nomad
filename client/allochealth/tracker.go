@@ -214,9 +214,13 @@ func (t *Tracker) setCheckHealth(healthy bool) {
 	t.l.Lock()
 	defer t.l.Unlock()
 
+	t.logger.Trace("setCheckHealth", "healthy", healthy, "tasksHealthy", t.tasksHealthy, "checksHealthy", t.checksHealthy)
+
 	// check health should always be false if tasks are unhealthy
 	// as checks might be missing from unhealthy tasks
 	t.checksHealthy = healthy && t.tasksHealthy
+
+	t.logger.Trace("setCheckHealth", "healthy", healthy, "tasksHealthy", t.tasksHealthy, "checksHealthy", t.checksHealthy)
 
 	// Only signal if we are healthy and so is the tasks
 	if !t.checksHealthy {
@@ -225,8 +229,12 @@ func (t *Tracker) setCheckHealth(healthy bool) {
 
 	select {
 	case t.healthy <- healthy:
+		t.logger.Trace("sent to t.healthy")
 	default:
+		t.logger.Trace("default")
 	}
+
+	t.logger.Trace("here")
 
 	// Shutdown the tracker
 	t.cancelFn()
@@ -361,14 +369,19 @@ func (t *Tracker) watchConsulEvents() {
 	// allocReg are the registered objects in Consul for the allocation
 	var allocReg *consul.AllocRegistration
 
+	t.logger.Trace("start consul watch")
+
 OUTER:
 	for {
 		select {
 		case <-t.ctx.Done():
+			t.logger.Trace("done")
 			return
 		case <-checkTicker.C:
 			newAllocReg, err := t.consulClient.AllocRegistrations(t.alloc.ID)
 			if err != nil {
+				t.logger.Warn("error looking up Consul registrations for allocation", "error", err)
+
 				if !consulChecksErr {
 					consulChecksErr = true
 					t.logger.Warn("error looking up Consul registrations for allocation", "error", err, "alloc_id", t.alloc.ID)
@@ -377,12 +390,15 @@ OUTER:
 			} else {
 				consulChecksErr = false
 				allocReg = newAllocReg
+				t.logger.Trace("set allocReg")
 			}
 		case <-healthyTimer.C:
+			t.logger.Trace("healthyTimer tick")
 			t.setCheckHealth(true)
 		}
 
 		if allocReg == nil {
+			t.logger.Trace("allocReg is nil")
 			continue
 		}
 
@@ -406,8 +422,10 @@ OUTER:
 			for _, sreg := range treg.Services {
 				for _, check := range sreg.Checks {
 					if check.Status == api.HealthPassing {
+						t.logger.Trace("passed", "check", check.Name)
 						continue
 					}
+					t.logger.Trace("not passed", "check", check.Name)
 
 					passed = false
 					t.setCheckHealth(false)
@@ -417,8 +435,10 @@ OUTER:
 		}
 
 		if !passed {
+			t.logger.Trace("not passed")
 			// Reset the timer since we have transitioned back to unhealthy
 			if primed {
+				t.logger.Trace("primed")
 				if !healthyTimer.Stop() {
 					select {
 					case <-healthyTimer.C:
@@ -428,6 +448,7 @@ OUTER:
 				primed = false
 			}
 		} else if !primed {
+			t.logger.Trace("not primed")
 			// Reset the timer to fire after MinHealthyTime
 			if !healthyTimer.Stop() {
 				select {
@@ -437,6 +458,7 @@ OUTER:
 			}
 
 			primed = true
+			t.logger.Trace("reset healthyTimer", "time", t.minHealthyTime)
 			healthyTimer.Reset(t.minHealthyTime)
 		}
 	}
