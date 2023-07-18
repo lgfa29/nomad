@@ -1,0 +1,37 @@
+---
+layout: docs
+page_title: 'Drivers: Pizza'
+description: The piiza task driver is used to run flat doughs with cheese
+---
+
+# Pizza Driver
+
+Name: `pizza`
+
+The `pizz` driver is used to produce a flat dough disk with tomato sauce,
+cheese, and other toppings as defined by the user.
+
+## Task Configuration
+
+```hcl
+task "pizza" {
+  driver = "pizza"
+
+  config {
+    toppings = [
+      "tomato sauce",
+      "cheese",
+      "pepperoni",
+    ]
+
+    allow_ketchup = false
+  }
+}
+```
+
+The `pizza` driver supports the following configuration in the job spec:
+
+- `toppings` - A selection of toppings to place in the pizza. If `pineapple` is
+  is added the task may fail.
+- `allow_ketchup` `(bool: false)` - If set to `true` the pizza is allowed to
+  receive ketchup. This may result in heated arguments and discussions.
